@@ -6,11 +6,11 @@ image:http://img.shields.io/travis/ciarand/notify.svg?style=flat-square[
     "Build Status", link="https://travis-ci.org/ciarand/notify"]
 
 [quote]
-A tiny Go library for displaying notifications on OS X using the new `display
-notification` Applescript API
+A tiny Go library for displaying user notifications across various
+environments.
 
-What?
------
+The state of OS X notifications
+-------------------------------
 Before OS X 10.9 (Mavericks), displaying a notification in the native
 Notification Center required having a code-signed app bundle. These were dark
 times, and awesome tools like
@@ -27,10 +27,21 @@ Still, that's not a particularly nice API for most users. That's where this
 package comes in. It implements a nicer wrapper over the Applescript
 notification API in both a command-line interface and a Go library.
 
+The state of Linux notifications
+--------------------------------
+Some versions of Linux (definitely Ubuntu, maybe others) have access to
+`notify-send`. This library assumes you have that. If you're on Ubuntu you can
+get it by running `sudo apt-get install -y libnotify-bin`.
+
+NOTE: The Linux version does not support subtitles or sounds. Accepting PRs.
+
+Other platforms
+---------------
+On other platforms this library will run `echo title: body text`.
+
 Requirements
 ------------
-- [ ] Go v1.0+
-- [ ] OS X 10.9+
+- [ ] Go v1.0+ (1.1+ for tests)
 
 Command-line usage
 ------------------
@@ -56,26 +67,26 @@ Examples
 ~~~~~~~~
 
 [source,bash]
-.basic_notification.bash
 ----
+# a basic notification
 notify -title "Title" -text "Text"
 ----
 
 [source,bash]
-.subtitle_notification.bash
 ----
+# with a subtitle
 notify -title "Title" -text "Text" -subtitle "Subtitle"
 ----
 
 [source,bash]
-.notification_with_sound.bash
 ----
+# with a sound (check /System/Library/Sounds or ~/Library/Sounds)
 notify -title "Title" -text "Text" -sound "Basso"
 ----
 
 [source,bash]
-.all_together.bash
 ----
+# all together now
 notify -title "Title" -text "Text" -subtitle "subtitle" -sound "Funk"
 ----
 
@@ -106,6 +117,9 @@ func main() {
 }
 ----
 
+Development
+-----------
+Tests are run with `go test`, as you'd expect.
 
 License
 -------
