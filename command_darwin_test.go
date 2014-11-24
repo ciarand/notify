@@ -2,6 +2,9 @@
 
 package notify
 
+var failingMock = mockNotification{[]string{"fail"}}
+var succeedingMock = mockNotification{[]string{"-e", "random number"}}
+
 var commandTests = []struct {
 	desc         string
 	notification Notification

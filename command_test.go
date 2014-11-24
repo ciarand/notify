@@ -35,19 +35,25 @@ func (m mockNotification) String() string {
 func TestShowReturnsAnErrorOnMalformedCommand(t *testing.T) {
 	t.Parallel()
 
-	m := mockNotification{[]string{"fail"}}
+	if failingMock.command() == nil {
+		t.Skipf("no failingMock available for this platform")
+		return
+	}
 
-	if err := Show(m); err == nil {
-		t.Errorf("Expected `%s` to fail, but it succeeded", m)
+	if err := Show(failingMock); err == nil {
+		t.Errorf("Expected `%s` to fail, but it succeeded", failingMock)
 	}
 }
 
 func TestShowReturnsNilOnCorrectlyFormedCommand(t *testing.T) {
 	t.Parallel()
 
-	m := mockNotification{[]string{"-e", "random number"}}
+	if succeedingMock.command() == nil {
+		t.Skipf("no succeedingMock available for this platform")
+		return
+	}
 
-	if err := Show(m); err != nil {
-		t.Errorf("Expected `%s` to succeed, but it failed", m)
+	if err := Show(succeedingMock); err != nil {
+		t.Errorf("Expected `%s` to succeed, but it failed", succeedingMock)
 	}
 }
