@@ -1,14 +1,13 @@
+// +build darwin
+
 package notify
 
 import (
 	"fmt"
-	"os/exec"
 	"strconv"
 )
 
-type commander interface {
-	command() []string
-}
+const showCommand = "osascript"
 
 // command generates the command to use.
 func (n Notification) command() []string {
@@ -24,9 +23,4 @@ func (n Notification) command() []string {
 	}
 
 	return []string{"-e", cmd}
-}
-
-// Show shows the provided notification
-func Show(n commander) error {
-	return exec.Command("osascript", n.command()...).Run()
 }

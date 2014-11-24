@@ -1,0 +1,65 @@
+// +build darwin
+
+package notify
+
+var commandTests = []struct {
+	desc         string
+	notification Notification
+	want         []string
+}{
+	{
+		"basic notification",
+		Notification{Text: "foo", Title: "bar"},
+		[]string{"-e", `display notification "foo" with title "bar"`},
+	},
+	{
+		"double quote semantics",
+		Notification{Text: `foo"doublequote"`, Title: `bar"doublequote"`},
+		[]string{"-e", `display notification "foo\"doublequote\"" with title "bar\"doublequote\""`},
+	},
+	{
+		"single quote semantics",
+		Notification{Text: `foo'singlequote'`, Title: `bar'singlequote'`},
+		[]string{"-e", `display notification "foo'singlequote'" with title "bar'singlequote'"`},
+	},
+	{
+		"with a subtitle",
+		Notification{Text: `foo`, Title: `bar`, Subtitle: "baz"},
+		[]string{
+			"-e",
+			`display notification "foo" with title "bar" subtitle "baz"`,
+		},
+	},
+	{
+		"with a subtitle containing quote marks",
+		Notification{Text: `foo`, Title: `bar`, Subtitle: `baz"malicious"`},
+		[]string{
+			"-e",
+			`display notification "foo" with title "bar" subtitle "baz\"malicious\""`,
+		},
+	},
+	{
+		"with a sound",
+		Notification{Text: `foo`, Title: `bar`, Sound: "Funk"},
+		[]string{
+			"-e",
+			`display notification "foo" with title "bar" sound name "Funk"`,
+		},
+	},
+	{
+		"with a sound contining quote marks",
+		Notification{Text: `foo`, Title: `bar`, Sound: `Funk"malicious"`},
+		[]string{
+			"-e",
+			`display notification "foo" with title "bar" sound name "Funk\"malicious\""`,
+		},
+	},
+	{
+		"with everything containing double quotes",
+		Notification{Text: `"dq"`, Title: `"dq"`, Subtitle: `"dq"`, Sound: `"dq"`},
+		[]string{
+			"-e",
+			`display notification "\"dq\"" with title "\"dq\"" subtitle "\"dq\"" sound name "\"dq\""`,
+		},
+	},
+}
