@@ -1,0 +1,109 @@
+Notify
+======
+:source-highlighter: highlightjs
+
+[quote]
+A tiny Go library for displaying notifications on OS X using the new `display
+notification` Applescript API
+
+What?
+-----
+Before OS X 10.9 (Mavericks), displaying a notification in the native
+Notification Center required having a code-signed app bundle. These were dark
+times, and awesome tools like
+https://github.com/alloy/terminal-notifier[terminal-notifier] were born out of
+frustration with the dismal state of affairs. However, as of OS X 10.9 you can
+display a notification through Apple's Applescript API. It looks something like this:
+
+[source,bash]
+----
+osascript -e 'display notification "text" with title "title" subtitle "subtitle" sound file "Basso"'
+----
+
+Still, that's not a particularly nice API for most users. That's where this
+package comes in. It implements a nicer wrapper over the Applescript
+notification API in both a command-line interface and a Go library.
+
+Requirements
+------------
+- [ ] Go v1.0+
+- [ ] OS X 10.9+
+
+Command-line usage
+------------------
+Installation
+~~~~~~~~~~~~
+[source,bash]
+----
+go get -u github.com/ciarand/notify/...
+----
+
+Usage
+~~~~~
+[source]
+----
+Usage of notify:
+  -sound="": An optional sound name to play
+  -subtitle="": An optional subtitle for the notification
+  -text="": The required text for the notification
+  -title="": The required title of the notification
+----
+
+Examples
+~~~~~~~~
+
+[source,bash]
+.basic_notification.bash
+----
+notify -title "Title" -text "Text"
+----
+
+[source,bash]
+.subtitle_notification.bash
+----
+notify -title "Title" -text "Text" -subtitle "Subtitle"
+----
+
+[source,bash]
+.notification_with_sound.bash
+----
+notify -title "Title" -text "Text" -sound "Basso"
+----
+
+[source,bash]
+.all_together.bash
+----
+notify -title "Title" -text "Text" -subtitle "subtitle" -sound "Funk"
+----
+
+Library usage
+-------------
+Installation
+~~~~~~~~~~~~
+
+[source,bash]
+----
+go get -u github.com/ciarand/notify
+----
+
+Usage
+~~~~~
+The library is fully documented with GoDoc. You can check
+https://godoc.org/github.com/ciarand/notify[GoDoc.org] for the API. In short,
+it looks something like this:
+
+[source,go]
+----
+package main
+
+import "github.com/ciarand/notify"
+
+func main() {
+    notify.Show(notify.NewNotification("Title", "Text"))
+}
+----
+
+
+License
+-------
+ISC, see the LICENSE file.
