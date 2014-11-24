@@ -2,6 +2,9 @@ Notify
 ======
 :source-highlighter: highlightjs
 
+image:http://img.shields.io/travis/ciarand/notify.svg?style=flat-square[
+    "Build Status", link="https://travis-ci.org/ciarand/notify"]
+
 [quote]
 A tiny Go library for displaying notifications on OS X using the new `display
 notification` Applescript API
