@@ -39,7 +39,7 @@ func main() {
 
 	n := notify.NewSubtitledNotificationWithSound(*title, *subtitle, *text, *sound)
 
-	if err := notify.Show(n); err != nil {
+	if err := n.Display(); err != nil {
 		dief("Error showing notification: %s", err)
 	}
 }
