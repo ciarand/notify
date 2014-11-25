@@ -1,11 +1,12 @@
 language: go
+
 go:
   - 1.2
   - 1.3
   - tip
 
 install:
-  - go get code.google.com/p/go.tools/cmd/cover
+  - go get golang.org/x/tools/cmd/cover
   - go get -d -v ./... && go build -v ./...
 
 script:
@@ -19,7 +20,6 @@ matrix:
   allow_failures:
     - go: tip
 
-CO:
-  travis:
-    yml:
-      secure: lLoL+wogIQHSCdYs/swKFlYfQiKrGSP/Cp67fha7LCvjxEyyc863szTv/wrl+/gF3EdXb65iG0Nb4/F2W7tX/aGzVTA7akNVvqpRl4yji4ECUrxD8G+fmCqYG8Rbf5LrRucdQ+CJO2afcImZYbzdghhZG9HkI73dtuKzKAenhG4=
+env:
+  global:
+    secure: Ts22TMsMIUxy2eTYF1pee7RNjYmFkwC9m+VaBDQroRtrabeGyQDHdTkjLzYgYJ+8zx3Tf75Tx5y0CzjDPKzQjLN1k+i89NAg2iEZ9b2G3WQslYpXaXtDiERSYYsRQMMx3Or/GoE172io8m6Kp9yszDgzfQdtGVz6mwUcSOQJPhM=
