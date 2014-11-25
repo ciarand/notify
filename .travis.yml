@@ -6,7 +6,8 @@ go:
   - tip
 
 install:
-  - go get golang.org/x/tools/cmd/cover
+  - go get golang.org/x/tools/cmd/cover || true
+  - go get code.google.com/p/go.tools/cmd/cover || true
   - go get -d -v ./... && go build -v ./...
 
 script:
