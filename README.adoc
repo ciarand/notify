@@ -36,7 +36,7 @@ displaying a notification, the call to `Show` will fail, returning
 
 Requirements
 ------------
-- [ ] Go v1.0+
+- [ ] Go v1.0+ (1.2+ for accurate coverage reporting)
 - [ ] OS X 10.9+ to actually display the notifications, other platforms will
   simply return `ErrorUnsupportedPlatform`
 
