@@ -2,7 +2,7 @@
 
 package notify
 
-// Show shows the provided notification
-func Show(n commander) error {
+// Display shows the provided notification
+func (n Notification) Display() error {
 	return ErrorUnsupportedPlatform
 }
