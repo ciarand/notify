@@ -1,10 +1,8 @@
+// +build darwin
+
 package notify
 
 import "os/exec"
-
-type commander interface {
-	command() []string
-}
 
 // Show shows the provided notification
 func Show(n commander) error {
