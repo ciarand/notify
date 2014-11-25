@@ -5,6 +5,10 @@ go:
   - 1.3
   - tip
 
+install:
+  - go get code.google.com/p/go.tools/cmd/...
+  - go get -d -v ./... && go build -v ./...
+
 script:
   - go test -v -covermode=count -coverprofile=coverage.out
 
