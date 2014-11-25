@@ -6,14 +6,13 @@ go:
   - tip
 
 install:
-  - go get code.google.com/p/go.tools/cmd/...
+  - go get code.google.com/p/go.tools/cmd/cover
   - go get -d -v ./... && go build -v ./...
 
 script:
   - go test -v -covermode=count -coverprofile=coverage.out
 
 after_script:
-  - go get code.google.com/p/go.tools/cmd/cover
   - go get github.com/mattn/goveralls
   - $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
 

@@ -1,6 +1,10 @@
 package notify
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+	"strconv"
+)
 
 // ErrorUnsupportedPlatform indicates that the current platform is not
 // supported for error display. Because this package relies on Applescript
@@ -58,4 +62,20 @@ func NewSubtitledNotificationWithSound(title, sub, text, sound string) Notificat
 	n.Sound = sound
 
 	return n
+}
+
+// command generates the command to use.
+func (n Notification) command() []string {
+	cmd := fmt.Sprintf("display notification %s with title %s",
+		strconv.Quote(n.Text), strconv.Quote(n.Title))
+
+	if n.Subtitle != "" {
+		cmd = fmt.Sprintf("%s subtitle %s", cmd, strconv.Quote(n.Subtitle))
+	}
+
+	if n.Sound != "" {
+		cmd = fmt.Sprintf("%s sound name %s", cmd, strconv.Quote(n.Sound))
+	}
+
+	return []string{"-e", cmd}
 }
