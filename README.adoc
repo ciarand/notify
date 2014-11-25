@@ -5,7 +5,7 @@ Notify
 image:http://img.shields.io/travis/ciarand/notify.svg?style=flat-square[
     "Build Status", link="https://travis-ci.org/ciarand/notify"]
 image:https://img.shields.io/coveralls/ciarand/notify.svg?style=flat-square[
-    "Coverage Status", https://coveralls.io/r/ciarand/notify]
+    "Coverage Status", link=https://coveralls.io/r/ciarand/notify]
 
 [quote]
 A tiny Go library and CLI tool for displaying user notifications on OS X.
