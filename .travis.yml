@@ -1,15 +1,23 @@
 language: go
-
 go:
   - 1.1
   - 1.2
   - 1.3
   - tip
 
-before_install:
-  - sudo apt-get install -y libnotify-bin
+script:
+  - go test -v -covermode=count -coverprofile=coverage.out
+
+after_script:
+  - go get code.google.com/p/go.tools/cmd/cover
+  - go get github.com/mattn/goveralls
+  - $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
 
 matrix:
   allow_failures:
     - go: tip
 
+CO:
+  travis:
+    yml:
+      secure: lLoL+wogIQHSCdYs/swKFlYfQiKrGSP/Cp67fha7LCvjxEyyc863szTv/wrl+/gF3EdXb65iG0Nb4/F2W7tX/aGzVTA7akNVvqpRl4yji4ECUrxD8G+fmCqYG8Rbf5LrRucdQ+CJO2afcImZYbzdghhZG9HkI73dtuKzKAenhG4=
