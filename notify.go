@@ -1,24 +1,21 @@
 package notify
 
-import (
-	"fmt"
-	"strconv"
-)
+import "errors"
 
-const showCommand = "osascript"
-
-type commander interface {
-	command() []string
-}
+// ErrorUnsupportedPlatform indicates that the current platform is not
+// supported for error display. Because this package relies on Applescript
+// (osascript) support, any platform other than Darwin (OS X) will fail with
+// this error.
+var ErrorUnsupportedPlatform = errors.New("unsupported platform")
 
 // Notification represents a notification that will be displayed.
 type Notification struct {
-	// The (required) text to display in the notification.
-	Text string
 	// The (required) title for the notification.
 	Title string
 	// An (optional) subtitle for the notification.
 	Subtitle string
+	// The (required) text to display in the notification.
+	Text string
 	// An (optional) path to a sound to play. Possible choices are pulled from
 	// `~/Library/Sounds` and `/System/Library/Sounds`.
 	Sound string
@@ -61,20 +58,4 @@ func NewSubtitledNotificationWithSound(title, sub, text, sound string) Notificat
 	n.Sound = sound
 
 	return n
-}
-
-// command generates the command to use.
-func (n Notification) command() []string {
-	cmd := fmt.Sprintf("display notification %s with title %s",
-		strconv.Quote(n.Text), strconv.Quote(n.Title))
-
-	if n.Subtitle != "" {
-		cmd = fmt.Sprintf("%s subtitle %s", cmd, strconv.Quote(n.Subtitle))
-	}
-
-	if n.Sound != "" {
-		cmd = fmt.Sprintf("%s sound name %s", cmd, strconv.Quote(n.Sound))
-	}
-
-	return []string{"-e", cmd}
 }

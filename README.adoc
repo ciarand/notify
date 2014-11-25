@@ -6,8 +6,7 @@ image:http://img.shields.io/travis/ciarand/notify.svg?style=flat-square[
     "Build Status", link="https://travis-ci.org/ciarand/notify"]
 
 [quote]
-A tiny Go library for displaying user notifications across various
-environments.
+A tiny Go library and CLI tool for displaying user notifications on OS X.
 
 The state of OS X notifications
 -------------------------------
@@ -20,28 +19,24 @@ display a notification through Apple's Applescript API. It looks something like 
 
 [source,bash]
 ----
-osascript -e 'display notification "text" with title "title" subtitle "subtitle" sound file "Basso"'
+osascript -e 'display notification "text" with title "title"'
 ----
 
 Still, that's not a particularly nice API for most users. That's where this
 package comes in. It implements a nicer wrapper over the Applescript
 notification API in both a command-line interface and a Go library.
 
-The state of Linux notifications
---------------------------------
-Some versions of Linux (definitely Ubuntu, maybe others) have access to
-`notify-send`. This library assumes you have that. If you're on Ubuntu you can
-get it by running `sudo apt-get install -y libnotify-bin`.
-
-NOTE: The Linux version does not support subtitles or sounds. Accepting PRs.
-
 Other platforms
 ---------------
-On other platforms this library will run `echo title: body text`.
+This package will correctly compile and run on other platforms. Instead of
+displaying a notification, the call to `Show` will fail, returning
+`ErrorUnsupportedPlatform`.
 
 Requirements
 ------------
-- [ ] Go v1.0+ (1.1+ for tests)
+- [ ] Go v1.0+
+- [ ] OS X 10.9+ to actually display the notifications, other platforms will
+  simply return `ErrorUnsupportedPlatform`
 
 Command-line usage
 ------------------
@@ -49,7 +44,7 @@ Installation
 ~~~~~~~~~~~~
 [source,bash]
 ----
-go get -u github.com/ciarand/notify/...
+go get -u github.com/ciarand/notify/cmd/notify
 ----
 
 Usage
@@ -102,9 +97,21 @@ go get -u github.com/ciarand/notify
 
 Usage
 ~~~~~
-The library is fully documented with GoDoc. You can check
-https://godoc.org/github.com/ciarand/notify[GoDoc.org] for the API. In short,
-it looks something like this:
+The library presents a very simple API. There are 4 ways to create a new notification:
+
+[source,go]
+----
+// a basic notification
+func NewNotification(title, text string) Notification
+// a notification with a subtitle
+func NewSubtitledNotification(title, sub, text string) Notification
+// a notification with sound (check /System/Library/Sounds or ~/Library/Sounds)
+func NewNotificationWithSound(title, text, sound string) Notification
+// a notification with a subtitle and a sound
+func NewSubtitledNotificationWithSound(title, sub, text, sound string) Notification
+----
+
+Once you have a `Notification`, you can call `Display` on it:
 
 [source,go]
 ----
@@ -113,7 +120,15 @@ package main
 import "github.com/ciarand/notify"
 
 func main() {
-    notify.Show(notify.NewNotification("Title", "Text"))
+	n := notify.NewNotification("Error", "Foobar failed, the defenses are failing!")
+
+	if err := n.Display(); err == notify.ErrorUnsupportedPlatform {
+		fmt.Println("You're not using Darwin!")
+	} else if err != nil {
+		fmt.Println("An error happened when running the command!")
+	} else {
+		fmt.Println("Everything went great!")
+	}
 }
 ----
 
