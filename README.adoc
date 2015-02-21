@@ -2,6 +2,8 @@ Notify
 ======
 :source-highlighter: highlightjs
 
+NOTE: https://github.com/everdev/mack[This] is probably a better choice.
+
 image:http://img.shields.io/travis/ciarand/notify.svg?style=flat-square[
     "Build Status", link="https://travis-ci.org/ciarand/notify"]
 image:https://img.shields.io/coveralls/ciarand/notify.svg?style=flat-square[
